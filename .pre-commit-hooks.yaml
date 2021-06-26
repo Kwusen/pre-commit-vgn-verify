@@ -1,0 +1,7 @@
+-   id: verify-vgn
+    name: Verify VGN and submodules
+    description: Ensures all submodules have no changes and have a proper vgn-version.txt file.
+    entry: verify-vgn
+    language: golang
+    always_run: true
+    verbose: true
