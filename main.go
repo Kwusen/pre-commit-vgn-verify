@@ -101,10 +101,13 @@ func main() {
 
 		// All is good with the submodule. Make sure there are no pending changes.
 		cmd := exec.Command("git", "status", "--porcelain")
-		cmd.Dir = m[1]
+		cmd.Dir, err = filepath.Abs(m[1])
+		if err != nil {
+			fail(&failed, `Failed to get absolute path for submodule: %s`, err)
+		}
 		files, err := cmd.CombinedOutput()
 		if err != nil {
-			fail(&failed, `Failed to run git status on "%s": %s\n`, m[1], err)
+			fail(&failed, `Failed to run git status on "%s": %s`, m[1], err)
 			continue
 		}
 		if len(files) > 0 {
