@@ -107,13 +107,13 @@ func main() {
 		if err != nil {
 			fail(&failed, `Failed to get absolute path for submodule: %s`, err)
 		}
-		files, err := cmd.CombinedOutput()
+		output, err := cmd.CombinedOutput()
 		if err != nil {
-			fail(&failed, `Failed to run git status on "%s": %s`, m[1], err)
+			fail(&failed, "Failed to run git status on \"%s\": %s\n\nOutput:\n%s", m[1], err, output)
 			continue
 		}
-		if len(files) > 0 {
-			fail(&failed, "Found pending changes in \"%s\":\n\n%s", m[1], files)
+		if len(output) > 0 {
+			fail(&failed, "Found pending changes in \"%s\":\n\n%s", m[1], output)
 		}
 	}
 
