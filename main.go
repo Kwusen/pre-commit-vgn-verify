@@ -102,6 +102,8 @@ func main() {
 		// All is good with the submodule. Make sure there are no pending changes.
 		cmd := exec.Command("git", "status", "--porcelain")
 		cmd.Dir, err = filepath.Abs(m[1])
+		fmt.Println(cmd.Dir)
+		fmt.Println(cmd.String())
 		if err != nil {
 			fail(&failed, `Failed to get absolute path for submodule: %s`, err)
 		}
