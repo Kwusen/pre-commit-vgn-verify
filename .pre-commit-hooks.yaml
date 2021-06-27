@@ -4,4 +4,3 @@
     entry: verify-vgn
     language: golang
     always_run: true
-    verbose: true
