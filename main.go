@@ -78,6 +78,9 @@ func main() {
 	smPaths := findMatches(gmFile, gitmodRegex)
 
 	for _, m := range smPaths {
+
+		// Get the version from the file in the submodule.
+
 		path := filepath.Join(m[1], "vgn-version.txt")
 		bts, err := os.ReadFile(path)
 		if err != nil {
@@ -92,6 +95,9 @@ func main() {
 			}
 			continue
 		}
+
+		// Make sure the version matches exactly what's referenced in go.mod.
+
 		smVer := strings.TrimSpace(string(bts))
 		if targetVersion != "" && smVer != targetVersion {
 			fail(&failed, `Version of vgn in go.mod (%s) is not equal to "%s":
@@ -100,6 +106,11 @@ func main() {
 		}
 
 		// All is good with the submodule. Make sure there are no pending changes.
+
+		// Need to reset the environment for running the git command or it will
+		// fail in an actual commit (but work in try-repo and running pre-commit
+		// explicitly).
+		// https://stackoverflow.com/a/55505661
 		cmd := exec.Command("env", "-i", "git", "status", "--porcelain")
 		cmd.Dir, err = filepath.Abs(m[1])
 		if err != nil {
