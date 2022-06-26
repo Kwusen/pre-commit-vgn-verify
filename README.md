@@ -12,7 +12,7 @@ Add this to the `.pre-commit-config.yaml` file:
 
 ``` yaml
 - repo: https://github.com/Kwusen/pre-commit-vgn-verify
-  rev: 'v0.0.1'
+  rev: 'v0.0.2'
   hooks:
   - id: verify-vgn
 

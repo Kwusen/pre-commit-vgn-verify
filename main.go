@@ -96,11 +96,12 @@ func main() {
 			continue
 		}
 
-		// Make sure the version matches exactly what's referenced in go.mod.
+		// Make sure the version in cps is the prefix of what's referenced in go.mod for
+		// the vgn commit.
 
 		smVer := strings.TrimSpace(string(bts))
-		if targetVersion != "" && smVer != targetVersion {
-			fail(&failed, `Version of vgn in go.mod (%s) is not equal to "%s":
+		if targetVersion != "" && !strings.HasPrefix(targetVersion, smVer) {
+			fail(&failed, `Version of vgn in go.mod (%s) does not have the expected prefix (%s):
   File with incorrect version: "%s"`, targetVersion, smVer, path)
 			continue
 		}
